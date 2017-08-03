@@ -31,6 +31,9 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject>Sync.Theater.TestProgram</StartupObject>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.IdentityModel.Logging, Version=1.1.4.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.IdentityModel.Logging.1.1.4\lib\net451\Microsoft.IdentityModel.Logging.dll</HintPath>
@@ -60,11 +63,11 @@
     <Compile Include="Config.cs" />
     <Compile Include="DatabaseConnector.cs" />
     <Compile Include="Models\SyncUser.cs" />
-    <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SyncRoom.cs" />
     <Compile Include="SyncService.cs" />
     <Compile Include="SyncTheater.cs" />
+    <Compile Include="TestProgram.cs" />
     <Compile Include="UserAuth.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -74,6 +77,9 @@
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Connected Services\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Public\index.min.html" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

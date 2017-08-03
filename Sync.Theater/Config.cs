@@ -19,7 +19,7 @@ namespace Sync.Theater
 
         public static Config LoadJson()
         {
-            using (StreamReader r = new StreamReader("config.json"))
+            using (StreamReader r = new StreamReader("../../config.json"))
             {
                 string json = r.ReadToEnd();
                 return JsonConvert.DeserializeObject<Config>(json);

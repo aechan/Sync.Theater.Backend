@@ -16,14 +16,17 @@ namespace Sync.Theater
 
         public static void Start()
         {
-            httpsv = new HttpServer(Config.LoadJson().Port);
+
+            rooms = new List<SyncRoom>();
+
+            httpsv = new HttpServer(8080);
 
             // Set the document root path.
             httpsv.RootPath = "../../Public";
 
             var timer = new System.Threading.Timer((e) =>
             {
-                CleanSocketServices(httpsv);
+                
             }, null, 0, (int)TimeSpan.FromMinutes(1).TotalMilliseconds);
 
 
@@ -44,35 +47,30 @@ namespace Sync.Theater
                     }
                     else
                     {
-                        var code = SyncRoom.RandomString(6);
-                        rooms.Add(new SyncRoom(code));
+                        path = "/index.min.html";
+                        var sr = CreateRoom();
 
-                        httpsv.AddWebSocketService("/" + code, () => GetRoomByCode(code).Service = new SyncService()
-                        {
-                            IgnoreExtensions = true
-                        });
 
+                        httpsv.AddWebSocketService("/" + sr.RoomCode, () => GetRoomByCode(sr.RoomCode).Service);
+                        res.Redirect((req.Url.GetLeftPart(UriPartial.Authority) + "/" + sr.RoomCode));
                     }
                 }
 
                 if (path == "/")
                 {
                     path = "/index.min.html";
-                    var code = SyncRoom.RandomString(6);
-                    rooms.Add(new SyncRoom(code));
+                    var room = CreateRoom();
 
-                    httpsv.AddWebSocketService("/" + code, () => GetRoomByCode(code).Service = new SyncService()
-                    {
-                        IgnoreExtensions = true
-                    });
+                    httpsv.AddWebSocketService("/" + room.RoomCode, () => room.Service);
 
-                    res.Redirect(req.Url + code);
+                    res.Redirect(req.Url + room.RoomCode);
                 }
 
                 var content = httpsv.GetFile(path);
 
                 if (content == null)
                 {
+                    Console.WriteLine("Couldn't find file {0}.", path);
                     res.StatusCode = (int)HttpStatusCode.NotFound;
                     return;
                 }
@@ -103,6 +101,8 @@ namespace Sync.Theater
             {
                 Console.WriteLine("Listening on port {0}, and providing WebSocket services:", httpsv.Port);
             }
+
+            Console.ReadLine();
         }
 
         public static void Stop()
@@ -110,19 +110,22 @@ namespace Sync.Theater
             httpsv.Stop();
         }
 
-        public static void CreateRoom(string code = "")
+        public static SyncRoom CreateRoom(string code = "")
         {
             SyncRoom room;
             if (string.IsNullOrWhiteSpace(code)) { room = new SyncRoom(); }
             else { room = new SyncRoom(code); }
 
             rooms.Add(room);
-            
+
+            return room;
         }
 
         public static SyncRoom GetRoomByCode(string code)
         {
-            return rooms.Where(r => { return r.RoomCode == code; }).ToList()[0];
+            var room = rooms.FirstOrDefault(x => x.RoomCode == code);
+            Console.WriteLine("Got room {0}", room.RoomCode);
+            return room;
         }
 
         public static void DeleteRoom(string code)

@@ -18,7 +18,6 @@ namespace Sync.Theater.Models
             this.Email = Email;
             this.Username = Username;
         }
-
         
     }
 }

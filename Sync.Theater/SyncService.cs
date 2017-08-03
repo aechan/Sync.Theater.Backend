@@ -13,9 +13,8 @@ namespace Sync.Theater
 
     class SyncService : WebSocketBehavior
     {
-
-        public delegate void UserCountChangedHandler(int count);
-        public event UserCountChangedHandler UserCountChanged = delegate { };
+        public delegate void ConnectionOpenOrCloseHandler(ConnectionAction action, IWebSocketSession s );
+        public event ConnectionOpenOrCloseHandler ConnectionOpenedOrClosed = delegate { };
 
         public delegate void ServerMessageRecievedHandler(dynamic message);
         public event ServerMessageRecievedHandler ServerMessageRecieved = delegate { };
@@ -30,6 +29,7 @@ namespace Sync.Theater
         {
             dynamic message = JsonConvert.DeserializeObject<dynamic>(e.Data);
 
+            
             switch (message.Recipient)
             {
                 case MessageRecipientType.SERVER:
@@ -42,20 +42,17 @@ namespace Sync.Theater
                     BroadcastMessageRecieved(message);
                     break;
             }
-            
-
         }
 
         protected override void OnOpen()
         {
-            // notify subscribers that user count has changed
-            UserCountChanged(Sessions.Count);
+            ConnectionOpenedOrClosed(ConnectionAction.OPENED, this);
         }
 
         protected override void OnClose(CloseEventArgs e)
         {
-            // notify subscribers that user count has changed
-            UserCountChanged(Sessions.Count);
+            
+            ConnectionOpenedOrClosed(ConnectionAction.CLOSED, this);
         }
 
         protected void ReassessOwner()
@@ -70,5 +67,11 @@ namespace Sync.Theater
         SERVER,
         CLIENT2CLIENT,
         BROADCAST
+    }
+
+    public enum ConnectionAction
+    {
+        OPENED,
+        CLOSED
     }
 }

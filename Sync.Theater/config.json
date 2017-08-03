@@ -1,6 +1,6 @@
 {
   "JWTSecret": "hello world",
-  "Port": 8080,
+  "Port": 5000,
   "DBUsername": "alec",
   "DBPassword": "vakama000",
   "SQLConnectionString": "Server=tcp:sync-theater.database.windows.net,1433;Initial Catalog=sync-theater-users;Persist Security Info=False;User ID={userid};Password={pwd};MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;"
