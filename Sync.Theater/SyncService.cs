@@ -16,30 +16,32 @@ namespace Sync.Theater
         public delegate void ConnectionOpenOrCloseHandler(ConnectionAction action, IWebSocketSession s );
         public event ConnectionOpenOrCloseHandler ConnectionOpenedOrClosed = delegate { };
 
-        public delegate void ServerMessageRecievedHandler(dynamic message);
+        public delegate void ServerMessageRecievedHandler(dynamic message, IWebSocketSession s);
         public event ServerMessageRecievedHandler ServerMessageRecieved = delegate { };
 
-        public delegate void Client2ClientMessageRecievedHandler(dynamic message);
+        public delegate void Client2ClientMessageRecievedHandler(dynamic message, IWebSocketSession s);
         public event Client2ClientMessageRecievedHandler Client2ClientMessageRecieved = delegate { };
 
-        public delegate void BroadcastMessageRecievedHandler(dynamic message);
+        public delegate void BroadcastMessageRecievedHandler(dynamic message, IWebSocketSession s);
         public event BroadcastMessageRecievedHandler BroadcastMessageRecieved = delegate { };
 
         protected override void OnMessage(MessageEventArgs e)
         {
             dynamic message = JsonConvert.DeserializeObject<dynamic>(e.Data);
 
-            
+            Console.WriteLine("Message recipient type: {0}", message.Recipient);
+
             switch (message.Recipient)
             {
-                case MessageRecipientType.SERVER:
-                    ServerMessageRecieved(message);
+                case 0:
+                    Console.WriteLine("R");
+                    ServerMessageRecieved(message, this);
                     break;
-                case MessageRecipientType.CLIENT2CLIENT:
-                    Client2ClientMessageRecieved(message);
+                case (int)MessageRecipientType.CLIENT2CLIENT:
+                    Client2ClientMessageRecieved(message, this);
                     break;
-                case MessageRecipientType.BROADCAST:
-                    BroadcastMessageRecieved(message);
+                case (int)MessageRecipientType.BROADCAST:
+                    BroadcastMessageRecieved(message, this);
                     break;
             }
         }

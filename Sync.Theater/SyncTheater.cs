@@ -38,26 +38,29 @@ namespace Sync.Theater
 
                 var path = req.RawUrl;
 
-                if(path.Length==6 && !path.Contains("."))
+                Console.WriteLine("Path was {0}", path);
+                // if we might have a match for a valid room code
+                if(path.Length==7 && !path.Contains("."))
                 {
+                    Console.WriteLine("Path was 6 chars and did not have a .");
+                    // attempt to get the room by the code given
                     var room = GetRoomByCode(path.Remove(0, 1));
-                    if ( room != null )
-                    {
-                        path = "/index.min.html";
-                    }
-                    else
-                    {
-                        path = "/index.min.html";
-                        var sr = CreateRoom();
 
+                    // set the path to the html file so we don't request something like "/ABC123"
+                    path = "/index.min.html";
+                    
+                    if(room==null)
+                    {
+                        
+                        var sr = CreateRoom();
 
                         httpsv.AddWebSocketService("/" + sr.RoomCode, () => GetRoomByCode(sr.RoomCode).Service);
                         res.Redirect((req.Url.GetLeftPart(UriPartial.Authority) + "/" + sr.RoomCode));
                     }
                 }
-
-                if (path == "/")
+                else if (path == "/")
                 {
+                    Console.WriteLine("Path was '/'");
                     path = "/index.min.html";
                     var room = CreateRoom();
 
@@ -65,6 +68,13 @@ namespace Sync.Theater
 
                     res.Redirect(req.Url + room.RoomCode);
                 }
+                else
+                {
+                    Console.WriteLine("Client tried to request resource {0} but it does not exist.", path);
+                    res.StatusCode = (int)HttpStatusCode.NotFound;
+                    return;
+                }
+                
 
                 var content = httpsv.GetFile(path);
 
@@ -124,7 +134,14 @@ namespace Sync.Theater
         public static SyncRoom GetRoomByCode(string code)
         {
             var room = rooms.FirstOrDefault(x => x.RoomCode == code);
-            Console.WriteLine("Got room {0}", room.RoomCode);
+            if (room != null)
+            {
+                Console.WriteLine("Got room {0}", room.RoomCode);
+            }
+            else
+            {
+                Console.WriteLine("Could not find room {0}.", code);
+            }
             return room;
         }
 

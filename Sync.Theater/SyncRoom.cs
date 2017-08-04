@@ -44,23 +44,28 @@ namespace Sync.Theater
             Console.WriteLine("Client [{0}] connected. {1} clients online in room {2}.", s.ID, Connections.Count, RoomCode);
         }
 
-        private void Service_Client2ClientMessageRecieved(dynamic message)
+        private void Service_Client2ClientMessageRecieved(dynamic message, IWebSocketSession s)
         {
             throw new NotImplementedException();
         }
 
-        private void Service_BroadcastMessageRecieved(dynamic message)
+        private void Service_BroadcastMessageRecieved(dynamic message, IWebSocketSession s)
         {
             throw new NotImplementedException();
         }
 
-        private void Service_ServerMessageRecieved(dynamic message)
+        private void Service_ServerMessageRecieved(dynamic message, IWebSocketSession s)
         {
+            Console.WriteLine("Attempting to register user");
             if (message.Command == "REGISTER")
             {
                 if(UserAuth.RegisterUser(message.Username, message.Email, message.Password))
                 {
-
+                    Console.WriteLine("Client {0} successfully registered as {1}.", s.ID, message.Username);
+                }
+                else
+                {
+                    Console.WriteLine("Something went wrong with registration");
                 }
             }
         }
