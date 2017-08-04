@@ -16,9 +16,9 @@ namespace Sync.Theater
     class DatabaseConnector
     {
         // build connection string based off our config.json variables
-        private static string connectionString = Config.LoadJson().SQLConnectionString
-            .Replace("{userid}",Config.LoadJson().DBUsername)
-            .Replace("{pwd}",Config.LoadJson().DBPassword);
+        private static string connectionString = ConfigManager.Config.SQLConnectionString
+            .Replace("{userid}",ConfigManager.Config.DBUsername)
+            .Replace("{pwd}", ConfigManager.Config.DBPassword);
 
 
         /// <summary>

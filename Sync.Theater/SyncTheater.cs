@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using WebSocketSharp;
 using WebSocketSharp.Server;
+using Sync.Theater.Utils;
 
 namespace Sync.Theater
 {
@@ -13,20 +14,28 @@ namespace Sync.Theater
     {
         public static List<SyncRoom> rooms;
         private static HttpServer httpsv;
+        private static SyncLogger Logger;
 
         public static void Start()
         {
-
+            Logger = new SyncLogger("Server", ConsoleColor.Red);
             rooms = new List<SyncRoom>();
 
-            httpsv = new HttpServer(8080);
+            httpsv = new HttpServer(ConfigManager.Config.Port);
 
             // Set the document root path.
             httpsv.RootPath = "../../Public";
 
             var timer = new System.Threading.Timer((e) =>
             {
-                
+                for (int i = 0; i < rooms.Count; ++i)
+                {
+                    if (rooms[i].ActiveUsers == 0)
+                    {
+                        Logger.Log("[Cleanup] Deleting inactive room {0}.", rooms[i].RoomCode);
+                        DeleteRoom(rooms[i].RoomCode);
+                    }
+                }
             }, null, 0, (int)TimeSpan.FromMinutes(1).TotalMilliseconds);
 
 
@@ -38,11 +47,9 @@ namespace Sync.Theater
 
                 var path = req.RawUrl;
 
-                Console.WriteLine("Path was {0}", path);
                 // if we might have a match for a valid room code
                 if(path.Length==7 && !path.Contains("."))
                 {
-                    Console.WriteLine("Path was 6 chars and did not have a .");
                     // attempt to get the room by the code given
                     var room = GetRoomByCode(path.Remove(0, 1));
 
@@ -52,25 +59,27 @@ namespace Sync.Theater
                     if(room==null)
                     {
                         
-                        var sr = CreateRoom();
 
-                        httpsv.AddWebSocketService("/" + sr.RoomCode, () => GetRoomByCode(sr.RoomCode).Service);
+                        var sr = CreateRoom();
+                        
+                        httpsv.AddWebSocketService("/" + sr.RoomCode, () => new SyncService(sr));
+
                         res.Redirect((req.Url.GetLeftPart(UriPartial.Authority) + "/" + sr.RoomCode));
                     }
                 }
                 else if (path == "/")
                 {
-                    Console.WriteLine("Path was '/'");
+                    
                     path = "/index.min.html";
+                    
                     var room = CreateRoom();
-
-                    httpsv.AddWebSocketService("/" + room.RoomCode, () => room.Service);
+                    
+                    httpsv.AddWebSocketService("/" + room.RoomCode, () => new SyncService(room));
 
                     res.Redirect(req.Url + room.RoomCode);
                 }
                 else
                 {
-                    Console.WriteLine("Client tried to request resource {0} but it does not exist.", path);
                     res.StatusCode = (int)HttpStatusCode.NotFound;
                     return;
                 }
@@ -80,7 +89,6 @@ namespace Sync.Theater
 
                 if (content == null)
                 {
-                    Console.WriteLine("Couldn't find file {0}.", path);
                     res.StatusCode = (int)HttpStatusCode.NotFound;
                     return;
                 }
@@ -109,7 +117,7 @@ namespace Sync.Theater
 
             if (httpsv.IsListening)
             {
-                Console.WriteLine("Listening on port {0}, and providing WebSocket services:", httpsv.Port);
+                Logger.Log("Listening on port {0}, and providing WebSocket services", httpsv.Port);
             }
 
             Console.ReadLine();
@@ -120,12 +128,13 @@ namespace Sync.Theater
             httpsv.Stop();
         }
 
-        public static SyncRoom CreateRoom(string code = "")
+        public static SyncRoom CreateRoom( string code = "")
         {
             SyncRoom room;
             if (string.IsNullOrWhiteSpace(code)) { room = new SyncRoom(); }
             else { room = new SyncRoom(code); }
 
+            Logger.Log("Room {0} created successfully.", room.RoomCode);
             rooms.Add(room);
 
             return room;
@@ -136,11 +145,11 @@ namespace Sync.Theater
             var room = rooms.FirstOrDefault(x => x.RoomCode == code);
             if (room != null)
             {
-                Console.WriteLine("Got room {0}", room.RoomCode);
+                Logger.Log("Got room {0}", room.RoomCode);
             }
             else
             {
-                Console.WriteLine("Could not find room {0}.", code);
+                Logger.Log("Could not find room {0}.", code);
             }
             return room;
         }

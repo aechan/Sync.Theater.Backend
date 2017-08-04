@@ -17,7 +17,7 @@ namespace Sync.Theater
         /// <summary>
         /// The secret key for JWT
         /// </summary>
-        public static string Secret = Config.LoadJson().JWTSecret;
+        public static string Secret = ConfigManager.Config.JWTSecret;
 
         /// <summary>
         /// Validates user info against the info stored in the DB and returns a JWT token if successful or null if not.

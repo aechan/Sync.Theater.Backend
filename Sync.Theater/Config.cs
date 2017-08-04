@@ -5,25 +5,48 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Sync.Theater.Utils;
 
 namespace Sync.Theater
 {
-    public class Config
+    public static class ConfigManager
     {
-        public string JWTSecret { get; private set; }
-        public int Port { get; private set; }
-        public string DBUsername { get; private set; }
-        public string DBPassword { get; private set; }
-        public string SQLConnectionString { get; private set; }
+        private static Config _config;
+        private static SyncLogger Logger;
 
-
-        public static Config LoadJson()
+        public static Config Config
         {
-            using (StreamReader r = new StreamReader("../../config.json"))
+            get
             {
-                string json = r.ReadToEnd();
-                return JsonConvert.DeserializeObject<Config>(json);
+                if (Logger == null)
+                {
+                    Logger = new SyncLogger("ConfigManager", ConsoleColor.Yellow);
+                }
+                if (_config == null)
+                {
+                    Logger.Log("Config not yet loaded, reading config.json..");
+                    using (StreamReader r = new StreamReader("../../config.json"))
+                    {
+                        string json = r.ReadToEnd();
+                        _config = JsonConvert.DeserializeObject<Config>(json);
+                    }
+                }
+                return _config;
+            }
+            private set
+            {
+                _config = value;
             }
         }
+        
+    }
+
+    public class Config
+    {
+        public string JWTSecret { get; set; }
+        public int Port { get; set; }
+        public string DBUsername { get; set; }
+        public string DBPassword { get; set; }
+        public string SQLConnectionString { get; set; }
     }
 }

@@ -7,5 +7,14 @@
 </head>
 <body>
     asdf
+    <script>
+        var path = window.location.pathname;
+        var href = window.location.href;
+        var socket = new WebSocket('ws://' + window.location.hostname + ':8080' + path);
+
+        socket.onmessage = function (e) {
+            console.log(e.data);
+        }
+    </script>
 </body>
 </html>
