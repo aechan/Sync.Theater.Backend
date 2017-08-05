@@ -120,5 +120,34 @@ namespace Sync.Theater
             }
 
         }
+
+        public static bool AddSyncQueueToDB(SyncQueue queue, SyncUser user)
+        {
+            if (queue==null) { return false; }
+
+            // insert the user into table
+            string queryString = string.Format("INSERT INTO QueueInfo VALUES ({0}, '{1}', '{2}', '{3}');", , Username, Email, PasswordHash);
+
+
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                // Create the Command and Parameter objects.
+                SqlCommand command = new SqlCommand(queryString, connection);
+
+                // Open the connection in a try/catch block. 
+                try
+                {
+                    connection.Open();
+                    command.ExecuteNonQuery();
+                    connection.Close();
+                    return true;
+                }
+                catch (Exception ex)
+                {
+                    Logger.Log(ex.Message);
+                    return false;
+                }
+            }
+        }
     }
 }

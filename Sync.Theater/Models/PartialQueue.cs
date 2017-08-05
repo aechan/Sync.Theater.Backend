@@ -6,10 +6,8 @@ using System.Threading.Tasks;
 
 namespace Sync.Theater.Models
 {
-    public class SyncQueue
+    public class PartialQueue
     {
-        public int QueueID { get; set; }
-        public int OwnerID { get; set; }
         public string Name { get; set; }
         public int QueueIndex { get; set; }
         public string[] URLs { get; set; }

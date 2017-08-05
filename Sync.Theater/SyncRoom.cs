@@ -18,9 +18,9 @@ namespace Sync.Theater
 
         private SyncLogger Logger;
 
-        private SyncService Owner;
+        public SyncService Owner;
 
-        private SyncQueue Queue;
+        public PartialQueue CurrentQueue;
 
         public SyncRoom() : this(RandomString(6)) { }
 
@@ -33,9 +33,7 @@ namespace Sync.Theater
 
         public void AddService(SyncService Service)
         {
-            Service.ServerMessageRecieved += Service_ServerMessageRecieved;
-            Service.BroadcastMessageRecieved += Service_BroadcastMessageRecieved;
-            Service.Client2ClientMessageRecieved += Service_Client2ClientMessageRecieved;
+            Service.MessageRecieved += Service_MessageRecieved;
             Service.ConnectionOpenedOrClosed += Service_ConnectionOpenedOrClosed;
             Services.Add(Service);
         }
@@ -59,32 +57,9 @@ namespace Sync.Theater
 
         }
 
-        private void Service_Client2ClientMessageRecieved(dynamic message, SyncService s)
+        private void Service_MessageRecieved(dynamic message, SyncService s)
         {
-            throw new NotImplementedException();
-        }
-
-        private void Service_BroadcastMessageRecieved(dynamic message, SyncService s)
-        {
-            throw new NotImplementedException();
-        }
-
-        private void Service_ServerMessageRecieved(dynamic message, SyncService s)
-        {
-            if (message.CommandType == "RegisterUser")
-            {
-                if(UserAuth.RegisterUser((string)message.Username, (string)message.Email, (string)message.Password))
-                {
-                    Logger.Log("Client {0} successfully registered as {1}.", s.ID, message.Username);
-                    s.Nickname = message.Username;
-                    s.SendMessage("{\"UserRegistration\": true}");
-                }
-                else
-                {
-                    Logger.Log ("Something went wrong with registration");
-                    s.SendMessage("{\"UserRegistration\": false}");
-                }
-            }
+            RecievedCommandInterpreter.InterpretCommand(message, s, this);
         }
 
         private void SendUserList(SyncService user)
@@ -96,10 +71,10 @@ namespace Sync.Theater
                 userlist.Add(sr.Nickname);
             }
 
-            user.SendMessage(UserListChanged.Notify(userlist.ToArray()));
+            //user.SendMessage(UserListChanged.Notify(userlist.ToArray()));
         }
 
-        private void Broadcast(string message)
+        public void Broadcast(string message)
         {
             foreach(var sr in Services)
             {

@@ -62,9 +62,8 @@
   <ItemGroup>
     <Compile Include="Config.cs" />
     <Compile Include="DatabaseConnector.cs" />
-    <Compile Include="Events\PermissionsChanged.cs" />
-    <Compile Include="Events\SyncQueueChanged.cs" />
-    <Compile Include="Events\UserListChanged.cs" />
+    <Compile Include="Events\RecievedCommandInterpreter.cs" />
+    <Compile Include="Models\PartialQueue.cs" />
     <Compile Include="Models\SyncQueue.cs" />
     <Compile Include="Models\SyncUser.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
