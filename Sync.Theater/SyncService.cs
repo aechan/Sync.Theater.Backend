@@ -8,6 +8,8 @@ using System.Threading.Tasks;
 using WebSocketSharp;
 using WebSocketSharp.Net;
 using WebSocketSharp.Server;
+using Sync.Theater.Utils;
+using Sync.Theater.Models;
 
 namespace Sync.Theater
 {
@@ -25,6 +27,10 @@ namespace Sync.Theater
 
         public delegate void BroadcastMessageRecievedHandler(dynamic message, SyncService s);
         public event BroadcastMessageRecievedHandler BroadcastMessageRecieved = delegate { };
+
+        public string Nickname;
+
+        private string UserToken;
 
         private UserPermissionLevel _permissions;
         public UserPermissionLevel Permissions
@@ -45,26 +51,24 @@ namespace Sync.Theater
             // some kind of dependency injection trick (I think..) - but it works 
             room.AddService(this);
 
-            
+            Nickname = GfycatNameGenerator.GetName();
         }
 
         protected override void OnMessage(MessageEventArgs e)
         {
             dynamic message = JsonConvert.DeserializeObject<dynamic>(e.Data);
 
-            Console.WriteLine("Message recipient type: {0}", message.Recipient);
-
-            switch (message.Recipient)
+            if(message.Recipient == MessageRecipientType.SERVER)
             {
-                case MessageRecipientType.SERVER:
-                    ServerMessageRecieved(message, this);
-                    break;
-                case MessageRecipientType.CLIENT2CLIENT:
-                    Client2ClientMessageRecieved(message, this);
-                    break;
-                case MessageRecipientType.BROADCAST:
-                    BroadcastMessageRecieved(message, this);
-                    break;
+                ServerMessageRecieved(message, this);
+            }
+            else if(message.Recipient == MessageRecipientType.CLIENT2CLIENT)
+            {
+                Client2ClientMessageRecieved(message, this);
+            }
+            else if (message.Recipient == MessageRecipientType.BROADCAST)
+            {
+                BroadcastMessageRecieved(message, this);
             }
         }
 
@@ -86,6 +90,8 @@ namespace Sync.Theater
         {
             Send(data);
         }
+
+        
     }
 
     public enum MessageRecipientType

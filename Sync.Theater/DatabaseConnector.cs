@@ -1,4 +1,5 @@
 ﻿using Sync.Theater.Models;
+using Sync.Theater.Utils;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -16,11 +17,17 @@ namespace Sync.Theater
     class DatabaseConnector
     {
         // build connection string based off our config.json variables
-        private static string connectionString = ConfigManager.Config.SQLConnectionString
-            .Replace("{userid}",ConfigManager.Config.DBUsername)
-            .Replace("{pwd}", ConfigManager.Config.DBPassword);
+        private static string connectionString;
+
+        private static SyncLogger Logger;
 
 
+        static DatabaseConnector()
+        {
+            Logger = new SyncLogger("DatabaseConnector", ConsoleColor.Magenta);
+
+            connectionString = ConfigManager.Config.SQLConnectionString.Replace("{userid}", ConfigManager.Config.DBUsername).Replace("{pwd}", ConfigManager.Config.DBPassword);
+        }
         /// <summary>
         /// Given the PasswordHash, Username and or Email of the user, returns a SyncUser created from database data.
         /// If an error occurs or no user is found, returns null
@@ -73,7 +80,7 @@ namespace Sync.Theater
                 }
                 catch (Exception ex)
                 {
-                    Console.WriteLine(ex.Message);
+                    Logger.Log(ex.Message);
                     return null;
                 }
 
@@ -107,7 +114,7 @@ namespace Sync.Theater
                 }
                 catch (Exception ex)
                 {
-                    Console.WriteLine(ex.Message);
+                    Logger.Log(ex.Message);
                     return false;
                 }
             }

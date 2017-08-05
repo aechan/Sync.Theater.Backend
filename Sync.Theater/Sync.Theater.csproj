@@ -63,6 +63,9 @@
     <Compile Include="Config.cs" />
     <Compile Include="DatabaseConnector.cs" />
     <Compile Include="Events\PermissionsChanged.cs" />
+    <Compile Include="Events\SyncQueueChanged.cs" />
+    <Compile Include="Events\UserListChanged.cs" />
+    <Compile Include="Models\SyncQueue.cs" />
     <Compile Include="Models\SyncUser.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SyncRoom.cs" />
@@ -70,6 +73,7 @@
     <Compile Include="SyncTheater.cs" />
     <Compile Include="TestProgram.cs" />
     <Compile Include="UserAuth.cs" />
+    <Compile Include="Utils\GfycatNameGenerator.cs" />
     <Compile Include="Utils\SyncLogger.cs" />
   </ItemGroup>
   <ItemGroup>

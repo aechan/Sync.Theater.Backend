@@ -5,6 +5,8 @@ using System.Text;
 using System.Threading.Tasks;
 using WebSocketSharp.Server;
 using Sync.Theater.Utils;
+using Sync.Theater.Models;
+using Sync.Theater.Events;
 
 namespace Sync.Theater
 {
@@ -17,6 +19,8 @@ namespace Sync.Theater
         private SyncLogger Logger;
 
         private SyncService Owner;
+
+        private SyncQueue Queue;
 
         public SyncRoom() : this(RandomString(6)) { }
 
@@ -40,13 +44,13 @@ namespace Sync.Theater
         {
             if(action == ConnectionAction.OPENED)
             {
-                Logger.Log("Client [{0}] connected. {1} clients online in room {2}.", s.ID, Services.Count, RoomCode);
+                Logger.Log("Client [{0}] connected. {1} clients online in room {2}.", s.Nickname, Services.Count, RoomCode);
             }
             else
             {
                 int index = Services.FindIndex(x => x.ID == s.ID);
                 Services.RemoveAt(index);
-                Logger.Log("Client [{0}] disconnected. {1} clients online in room {2}.", s.ID, Services.Count, RoomCode);
+                Logger.Log("Client [{0}] disconnected. {1} clients online in room {2}.", s.Nickname, Services.Count, RoomCode);
             }
 
 
@@ -67,18 +71,45 @@ namespace Sync.Theater
 
         private void Service_ServerMessageRecieved(dynamic message, SyncService s)
         {
-            
-            if (message.Command == "REGISTER")
+            if (message.CommandType == "RegisterUser")
             {
-                if(UserAuth.RegisterUser(message.Username, message.Email, message.Password))
+                if(UserAuth.RegisterUser((string)message.Username, (string)message.Email, (string)message.Password))
                 {
                     Logger.Log("Client {0} successfully registered as {1}.", s.ID, message.Username);
+                    s.Nickname = message.Username;
+                    s.SendMessage("{\"UserRegistration\": true}");
                 }
                 else
                 {
                     Logger.Log ("Something went wrong with registration");
+                    s.SendMessage("{\"UserRegistration\": false}");
                 }
             }
+        }
+
+        private void SendUserList(SyncService user)
+        {
+            List<string> userlist = new List<string>(Services.Count);
+
+            foreach(var sr in Services)
+            {
+                userlist.Add(sr.Nickname);
+            }
+
+            user.SendMessage(UserListChanged.Notify(userlist.ToArray()));
+        }
+
+        private void Broadcast(string message)
+        {
+            foreach(var sr in Services)
+            {
+                sr.SendMessage(message);
+            }
+        }
+
+        private SyncService GetServiceByNickname(string nick)
+        {
+            return Services.First(sr => sr.Nickname == nick);
         }
 
         private void ReassessOwnership(SyncService deltaUser, ConnectionAction action)

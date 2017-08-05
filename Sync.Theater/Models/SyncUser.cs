@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Sync.Theater.Models
 {
-    class SyncUser
+    public class SyncUser
     {
         public string Username { get; private set; }
         public int Id { get; private set; }
