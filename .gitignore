@@ -12,6 +12,9 @@
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs
 
+#config file with sensitive info
+Sync.Theater/config.json
+
 # Build results
 [Dd]ebug/
 [Dd]ebugPublic/
