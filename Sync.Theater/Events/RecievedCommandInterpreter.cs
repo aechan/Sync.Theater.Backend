@@ -19,7 +19,7 @@ namespace Sync.Theater.Events
 
         public static void InterpretCommand(dynamic message, SyncService s, SyncRoom room)
         {
-            if (message.CommandType == CommandType.REGISTERUSER)
+            if (message.CommandType == CommandType.REGISTERUSER) // User wants to register
             {
                 var success = false;
 
@@ -32,8 +32,7 @@ namespace Sync.Theater.Events
                 }
                 else
                 {
-                    Logger.Log("Something went wrong with registration");
-                     
+                    Logger.Log("Something went wrong with registration"); 
                 }
 
                 var res = new
@@ -44,11 +43,11 @@ namespace Sync.Theater.Events
 
                 s.SendMessage(JsonConvert.SerializeObject(res));
             }
-            else if(message.CommandType == CommandType.LOGINUSER)
+            else if(message.CommandType == CommandType.LOGINUSER) // User wants to login
             {
                 throw new NotImplementedException();
             }
-            else if(message.CommandType == CommandType.SYNCQUEUECHANGED)    // if the owner or trusted user modifies the queue we need to broadcast that change to all clients
+            else if(message.CommandType == CommandType.MODIFYQUEUE)    // if the owner or trusted user modifies the queue we need to broadcast that change to all clients
             {
                 if(s.Permissions == UserPermissionLevel.OWNER || s.Permissions == UserPermissionLevel.TRUSTED)
                 {
@@ -70,14 +69,62 @@ namespace Sync.Theater.Events
                     room.Broadcast(JsonConvert.SerializeObject(res));
                 }
             }
+            else if (message.CommandType == CommandType.UPGRADEUSERPERMISSIONS) // owner wants to upgrade someone to TRUSTED permissions
+            {
+                if(s.Permissions == UserPermissionLevel.OWNER)
+                {
+                    SyncService target = room.GetServiceByNickname(message.TargetNickname);
+
+                    target.Permissions = message.PermissionsLevel;
+
+                }
+            }
+            else if (message.CommandType == CommandType.SYNCSTATE) // Owner wants other to sync to their video state (automatic)
+            {
+                var res = new
+                {
+                    CommandType = "SyncState",
+                    State = new
+                    {
+                        Paused = message.Paused,
+                        Time = message.Time
+                    }
+                };
+
+                room.Broadcast(JsonConvert.SerializeObject(res));
+            }
+        }
+
+        public static string PermissionsChangedNotification(UserPermissionLevel level)
+        {
+            var res = new
+            {
+                CommandType = nameof(PermissionsChangedNotification),
+                PermissionLevel = level
+            };
+
+            return JsonConvert.SerializeObject(res);
         }
     }
 
     public enum CommandType
     {
+        // User management commands
         REGISTERUSER,
         LOGINUSER,
-        SYNCQUEUECHANGED
+        UPGRADEUSERPERMISSIONS,
+
+        // Queue commands
+        MODIFYQUEUE,
+        ADDQUEUE,
+        DELETEQUEUE,
+        GETALL,
+        GETONE,
+
+        // Video controls
+        SYNCSTATE
+
+
     }
 
 

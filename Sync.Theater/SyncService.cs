@@ -36,7 +36,7 @@ namespace Sync.Theater
             set
             {
                 _permissions = value;
-                Send(PermissionsChanged.Notify(_permissions, this));
+                Send(RecievedCommandInterpreter.PermissionsChangedNotification(_permissions));
             }
         }
 

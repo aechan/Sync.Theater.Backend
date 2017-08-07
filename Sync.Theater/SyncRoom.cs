@@ -82,7 +82,7 @@ namespace Sync.Theater
             }
         }
 
-        private SyncService GetServiceByNickname(string nick)
+        public SyncService GetServiceByNickname(string nick)
         {
             return Services.First(sr => sr.Nickname == nick);
         }

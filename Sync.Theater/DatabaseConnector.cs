@@ -121,12 +121,12 @@ namespace Sync.Theater
 
         }
 
-        public static bool AddSyncQueueToDB(SyncQueue queue, SyncUser user)
+       /* public static bool AddSyncQueueToDB(SyncQueue queue, SyncUser user)
         {
             if (queue==null) { return false; }
 
             // insert the user into table
-            string queryString = string.Format("INSERT INTO QueueInfo VALUES ({0}, '{1}', '{2}', '{3}');", , Username, Email, PasswordHash);
+            //string queryString = string.Format("INSERT INTO QueueInfo VALUES ({0}, '{1}', '{2}', '{3}');", ID, Username, Email, PasswordHash);
 
 
             using (SqlConnection connection = new SqlConnection(connectionString))
@@ -148,6 +148,6 @@ namespace Sync.Theater
                     return false;
                 }
             }
-        }
+        }*/
     }
 }
