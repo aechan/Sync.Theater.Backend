@@ -24,7 +24,7 @@ namespace Sync.Theater
             httpsv = new HttpServer(ConfigManager.Config.Port);
 
             // Set the document root path.
-            httpsv.RootPath = "../../Public";
+            httpsv.RootPath = "../../Sync.Theater.Web";
 
             var timer = new System.Threading.Timer((e) =>
             {

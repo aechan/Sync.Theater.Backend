@@ -1,0 +1,3 @@
+[submodule "Sync.Theater/Sync.Theater.Web"]
+	path = Sync.Theater/Sync.Theater.Web
+	url = https://github.com/sync-theater/Sync.Theater.Web
