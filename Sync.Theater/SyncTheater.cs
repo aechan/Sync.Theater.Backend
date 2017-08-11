@@ -54,7 +54,7 @@ namespace Sync.Theater
                     var room = GetRoomByCode(path.Remove(0, 1));
 
                     // set the path to the html file so we don't request something like "/ABC123"
-                    path = "htmlm/index.min.html";
+                    path = "index.min.html";
                     
                     if(room==null)
                     {
@@ -70,7 +70,7 @@ namespace Sync.Theater
                 else if (path == "/")
                 {
                     
-                    path = "htmlm/index.min.html";
+                    path = "index.min.html";
                     
                     var room = CreateRoom();
                     
