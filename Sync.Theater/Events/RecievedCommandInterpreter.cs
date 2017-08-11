@@ -81,17 +81,20 @@ namespace Sync.Theater.Events
             }
             else if (message.CommandType == CommandType.SYNCSTATE) // Owner wants other to sync to their video state (automatic)
             {
-                var res = new
+                if (s.Permissions == UserPermissionLevel.OWNER)
                 {
-                    CommandType = "SyncState",
-                    State = new
+                    var res = new
                     {
-                        Paused = message.Paused,
-                        Time = message.Time
-                    }
-                };
+                        CommandType = CommandType.SYNCSTATE,
+                        State = new
+                        {
+                            Paused = message.Paused,
+                            Time = message.Time
+                        }
+                    };
 
-                room.Broadcast(JsonConvert.SerializeObject(res));
+                    room.Broadcast(JsonConvert.SerializeObject(res));
+                }
             }
         }
 
@@ -99,7 +102,7 @@ namespace Sync.Theater.Events
         {
             var res = new
             {
-                CommandType = nameof(PermissionsChangedNotification),
+                CommandType = CommandType.PERMISSIONSCHANGEDNOTIFICATION,
                 PermissionLevel = level
             };
 
@@ -113,6 +116,7 @@ namespace Sync.Theater.Events
         REGISTERUSER,
         LOGINUSER,
         UPGRADEUSERPERMISSIONS,
+        PERMISSIONSCHANGEDNOTIFICATION,
 
         // Queue commands
         MODIFYQUEUE,

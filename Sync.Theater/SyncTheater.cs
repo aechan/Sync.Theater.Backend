@@ -24,7 +24,7 @@ namespace Sync.Theater
             httpsv = new HttpServer(ConfigManager.Config.Port);
 
             // Set the document root path.
-            httpsv.RootPath = "../../Sync.Theater.Web";
+            httpsv.RootPath = System.IO.Path.GetFullPath(ConfigManager.Config.HTTPRelativeBasePath);
 
             var timer = new System.Threading.Timer((e) =>
             {
@@ -54,7 +54,7 @@ namespace Sync.Theater
                     var room = GetRoomByCode(path.Remove(0, 1));
 
                     // set the path to the html file so we don't request something like "/ABC123"
-                    path = "/index.min.html";
+                    path = "htmlm/index.min.html";
                     
                     if(room==null)
                     {
@@ -70,7 +70,7 @@ namespace Sync.Theater
                 else if (path == "/")
                 {
                     
-                    path = "/index.min.html";
+                    path = "htmlm/index.min.html";
                     
                     var room = CreateRoom();
                     
@@ -78,11 +78,7 @@ namespace Sync.Theater
 
                     res.Redirect(req.Url + room.RoomCode);
                 }
-                else
-                {
-                    res.StatusCode = (int)HttpStatusCode.NotFound;
-                    return;
-                }
+                
                 
 
                 var content = httpsv.GetFile(path);

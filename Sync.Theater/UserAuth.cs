@@ -49,7 +49,6 @@ namespace Sync.Theater
         {
             if ((string.IsNullOrWhiteSpace(Username) && string.IsNullOrWhiteSpace(Email)) || (string.IsNullOrWhiteSpace(RawPassword))) { return false; }
 
-
             // if nobody else has registered with this info then register.
             if (DatabaseConnector.ValidateAndGetUser(RawPassword, Username, Email) == null)
             {

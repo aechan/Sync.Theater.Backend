@@ -79,12 +79,43 @@
     <None Include="App.config" />
     <None Include="config.json" />
     <None Include="packages.config" />
+    <None Include="Sync.Theater.Web\.git" />
+    <None Include="Sync.Theater.Web\css\bootstrap-theme.css.map" />
+    <None Include="Sync.Theater.Web\css\bootstrap.css.map" />
+    <None Include="Sync.Theater.Web\fonts\glyphicons-halflings-regular.eot" />
+    <None Include="Sync.Theater.Web\fonts\glyphicons-halflings-regular.ttf" />
+    <None Include="Sync.Theater.Web\fonts\glyphicons-halflings-regular.woff" />
+    <None Include="Sync.Theater.Web\fonts\glyphicons-halflings-regular.woff2" />
+    <None Include="Sync.Theater.Web\package-lock.json" />
+    <None Include="Sync.Theater.Web\package.json" />
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Connected Services\" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Sync.Theater.Web\index.html" />
+    <Content Include="Sync.Theater.Web\.gitignore" />
+    <Content Include="Sync.Theater.Web\cssm\bootstrap-theme.min.css" />
+    <Content Include="Sync.Theater.Web\cssm\bootstrap.min.css" />
+    <Content Include="Sync.Theater.Web\cssm\sync-theater.min.css" />
+    <Content Include="Sync.Theater.Web\css\bootstrap-theme.css" />
+    <Content Include="Sync.Theater.Web\css\bootstrap.css" />
+    <Content Include="Sync.Theater.Web\css\sync-theater.css" />
+    <Content Include="Sync.Theater.Web\fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="Sync.Theater.Web\gruntfile.js" />
+    <Content Include="Sync.Theater.Web\htmlm\index.min.html" />
+    <Content Include="Sync.Theater.Web\html\index.html" />
+    <Content Include="Sync.Theater.Web\jsm\bootstrap.min.js" />
+    <Content Include="Sync.Theater.Web\jsm\init.min.js" />
+    <Content Include="Sync.Theater.Web\jsm\jasny-bootstrap.min.js" />
+    <Content Include="Sync.Theater.Web\jsm\npm.min.js" />
+    <Content Include="Sync.Theater.Web\jsm\permissions.min.js" />
+    <Content Include="Sync.Theater.Web\jsm\sockets.min.js" />
+    <Content Include="Sync.Theater.Web\js\bootstrap.js" />
+    <Content Include="Sync.Theater.Web\js\init.js" />
+    <Content Include="Sync.Theater.Web\js\npm.js" />
+    <Content Include="Sync.Theater.Web\js\permissions.js" />
+    <Content Include="Sync.Theater.Web\js\sockets.js" />
+    <Content Include="Sync.Theater.Web\js\video-controls.js" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

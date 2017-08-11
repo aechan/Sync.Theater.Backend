@@ -29,6 +29,7 @@ namespace Sync.Theater
                     {
                         string json = r.ReadToEnd();
                         _config = JsonConvert.DeserializeObject<Config>(json);
+                        Log(_config);
                     }
                 }
                 return _config;
@@ -38,7 +39,22 @@ namespace Sync.Theater
                 _config = value;
             }
         }
-        
+
+        private static void Log(object @object)
+        {
+            foreach (var property in @object.GetType().GetProperties())
+            {
+                if (property.Name != "SQLConnectionString")
+                {
+                    Logger.Log(property.Name + ": " + property.GetValue(@object, null).ToString());
+                }
+                else
+                {
+                    Logger.Log("SQLConnectionString ommitted..");
+                }
+            }
+        }
+
     }
 
     public class Config
@@ -48,5 +64,9 @@ namespace Sync.Theater
         public string DBUsername { get; set; }
         public string DBPassword { get; set; }
         public string SQLConnectionString { get; set; }
+
+        public string HTTPRelativeBasePath { get; set; }
     }
+
+
 }
