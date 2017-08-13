@@ -76,9 +76,9 @@ namespace Sync.Theater
 
         public void Broadcast(string message)
         {
-            foreach(var sr in Services)
+            for(int i = 0; i<Services.Count; i++)
             {
-                sr.SendMessage(message);
+                Services[i].SendMessage(message);
             }
         }
 
