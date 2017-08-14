@@ -47,6 +47,7 @@ namespace Sync.Theater
 
                 var path = req.RawUrl;
 
+
                 // if we might have a match for a valid room code
                 if(path.Length==7 && !path.Contains("."))
                 {
@@ -107,6 +108,16 @@ namespace Sync.Theater
 
                 res.WriteContent(content);
 
+            };
+
+            httpsv.OnPost += (sender, e) => {
+                var req = e.Request;
+                var res = e.Response;
+
+                if (req.Headers.Contains("MIMERequest"))
+                {
+                    // get url
+                }
             };
 
             httpsv.Start();

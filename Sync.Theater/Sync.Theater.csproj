@@ -73,6 +73,7 @@
     <Compile Include="TestProgram.cs" />
     <Compile Include="UserAuth.cs" />
     <Compile Include="Utils\GfycatNameGenerator.cs" />
+    <Compile Include="Utils\MimeType.cs" />
     <Compile Include="Utils\SyncLogger.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -9979,6 +9980,7 @@
     <Content Include="Sync.Theater.Web\src\scripts\init.js" />
     <Content Include="Sync.Theater.Web\src\scripts\main.js" />
     <Content Include="Sync.Theater.Web\src\scripts\permissions.js" />
+    <Content Include="Sync.Theater.Web\src\scripts\queue.js" />
     <Content Include="Sync.Theater.Web\src\scripts\sockets.js" />
     <Content Include="Sync.Theater.Web\src\scripts\video-controls.js" />
     <Content Include="Sync.Theater.Web\src\scripts\video.js" />
