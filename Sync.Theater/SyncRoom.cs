@@ -7,6 +7,7 @@ using WebSocketSharp.Server;
 using Sync.Theater.Utils;
 using Sync.Theater.Models;
 using Sync.Theater.Events;
+using Newtonsoft.Json;
 
 namespace Sync.Theater
 {
@@ -22,6 +23,8 @@ namespace Sync.Theater
 
         public PartialQueue CurrentQueue;
 
+        private int likes;
+
         public SyncRoom() : this(RandomString(6)) { }
 
         public SyncRoom(string code)
@@ -29,6 +32,8 @@ namespace Sync.Theater
             this.Logger = new SyncLogger("Room " + code, ConsoleColor.Cyan);
             this.Services = new List<SyncService>();
             this.RoomCode = code;
+            this.CurrentQueue = new PartialQueue();
+            this.likes = 0;
         }
 
         public void AddService(SyncService Service)
@@ -38,11 +43,54 @@ namespace Sync.Theater
             Services.Add(Service);
         }
 
+        public int AddLike()
+        {
+            likes += 1;
+            return likes;
+        }
+
         private void Service_ConnectionOpenedOrClosed(ConnectionAction action, SyncService s)
         {
             if(action == ConnectionAction.OPENED)
             {
                 Logger.Log("Client [{0}] connected. {1} clients online in room {2}.", s.Nickname, Services.Count, RoomCode);
+
+                if (CurrentQueue.URLs != null)
+                {
+                    // update new user with queue
+                    var res = new
+                    {
+                        CommandType = CommandType.QUEUEUPDATE,
+                        Queue = new
+                        {
+                            Name = CurrentQueue.Name,
+                            QueueIndex = CurrentQueue.QueueIndex,
+                            URLs = CurrentQueue.URLs
+                        }
+                    };
+
+                    s.SendMessage(JsonConvert.SerializeObject(res));
+                }
+
+
+                // notify service of their nickname
+                var res1 = new
+                {
+                    CommandType = CommandType.SETUSERNICKNAME,
+                    Nickname = s.Nickname
+                };
+
+                s.SendMessage(JsonConvert.SerializeObject(res1));
+
+
+                // notify service of like count
+                var res2 = new
+                {
+                    CommandType = CommandType.UPDATELIKES,
+                    Likes = likes
+                };
+
+                s.SendMessage(JsonConvert.SerializeObject(res2));
             }
             else
             {
@@ -55,6 +103,8 @@ namespace Sync.Theater
             ActiveUsers = Services.Count;
             ReassessOwnership(s, action);
 
+            SendUserList();
+
         }
 
         private void Service_MessageRecieved(dynamic message, SyncService s)
@@ -62,16 +112,28 @@ namespace Sync.Theater
             RecievedCommandInterpreter.InterpretCommand(message, s, this);
         }
 
-        private void SendUserList(SyncService user)
+        public void SendUserList()
         {
-            List<string> userlist = new List<string>(Services.Count);
+
+            List<dynamic> userlist = new List<dynamic>(Services.Count);
 
             foreach(var sr in Services)
             {
-                userlist.Add(sr.Nickname);
+
+                userlist.Add(new {
+                    Nickname = sr.Nickname,
+                    PermissionLevel = sr.Permissions
+                });
             }
 
-            //user.SendMessage(UserListChanged.Notify(userlist.ToArray()));
+            var res = new
+            {
+                CommandType = CommandType.SENDUSERLIST,
+                Userlist = userlist
+            };
+            
+            Broadcast(JsonConvert.SerializeObject(res));
+            
         }
 
         public void Broadcast(string message)
@@ -79,6 +141,17 @@ namespace Sync.Theater
             for(int i = 0; i<Services.Count; i++)
             {
                 Services[i].SendMessage(message);
+            }
+        }
+
+        public void BroadcastExcept(string message, SyncService exception)
+        {
+            for (int i = 0; i < Services.Count; i++)
+            {
+                if (Services[i].ID != exception.ID)
+                {
+                    Services[i].SendMessage(message);
+                }
             }
         }
 

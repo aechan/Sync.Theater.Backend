@@ -53,11 +53,11 @@ namespace Sync.Theater.Events
                 {
                     room.CurrentQueue.Name = message.Queue.Name;
                     room.CurrentQueue.QueueIndex = message.Queue.QueueIndex;
-                    room.CurrentQueue.URLs = message.Queue.URLs;
+                    room.CurrentQueue.URLs = message.Queue.URLs.ToObject<string[]>();
 
                     var res = new
                     {
-                        CommandType = "QueueUpdate",
+                        CommandType = CommandType.QUEUEUPDATE,
                         Queue = new
                         {
                             Name = room.CurrentQueue.Name,
@@ -66,7 +66,7 @@ namespace Sync.Theater.Events
                         }
                     };
 
-                    room.Broadcast(JsonConvert.SerializeObject(res));
+                    room.BroadcastExcept(JsonConvert.SerializeObject(res), s);
                 }
             }
             else if (message.CommandType == CommandType.UPGRADEUSERPERMISSIONS) // owner wants to upgrade someone to TRUSTED permissions
@@ -95,6 +95,16 @@ namespace Sync.Theater.Events
 
                     room.Broadcast(JsonConvert.SerializeObject(res));
                 }
+            }
+            else if(message.CommandType == CommandType.ADDLIKE)
+            {
+                var res = new
+                {
+                    CommandType = CommandType.UPDATELIKES,
+                    Likes = room.AddLike()
+                };
+
+                room.Broadcast(JsonConvert.SerializeObject(res));
             }
         }
 
@@ -126,7 +136,15 @@ namespace Sync.Theater.Events
         GETONE,
 
         // Video controls
-        SYNCSTATE
+        SYNCSTATE,
+
+        // server response commands
+        QUEUEUPDATE,
+        SETUSERNICKNAME,
+        SENDUSERLIST,
+
+        ADDLIKE,
+        UPDATELIKES
 
 
     }

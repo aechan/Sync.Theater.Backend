@@ -110,15 +110,6 @@ namespace Sync.Theater
 
             };
 
-            httpsv.OnPost += (sender, e) => {
-                var req = e.Request;
-                var res = e.Response;
-
-                if (req.Headers.Contains("MIMERequest"))
-                {
-                    // get url
-                }
-            };
 
             httpsv.Start();
 

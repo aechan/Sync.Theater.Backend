@@ -9982,6 +9982,7 @@
     <Content Include="Sync.Theater.Web\src\scripts\permissions.js" />
     <Content Include="Sync.Theater.Web\src\scripts\queue.js" />
     <Content Include="Sync.Theater.Web\src\scripts\sockets.js" />
+    <Content Include="Sync.Theater.Web\src\scripts\user.js" />
     <Content Include="Sync.Theater.Web\src\scripts\video-controls.js" />
     <Content Include="Sync.Theater.Web\src\scripts\video.js" />
     <Content Include="Sync.Theater.Web\src\styles\main.css" />
