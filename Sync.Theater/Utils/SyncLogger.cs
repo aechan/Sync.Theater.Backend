@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace Sync.Theater.Utils
 {
-    class SyncLogger
+    public class SyncLogger
     {
         
         private string prefix;
@@ -31,7 +32,19 @@ namespace Sync.Theater.Utils
                 // write the rest of the message and format
                 Console.WriteLine(message, args);
             }
+            else if (LogLevel == SyncLogger_LogLevel.PRODUCTION)
+            {
+                FileStream fs = new FileStream(Sync.Theater.ConfigManager.Config.LogFilePath, FileMode.OpenOrCreate, FileAccess.Write);
+                StreamWriter sw = new StreamWriter(fs);
+                sw.BaseStream.Seek(0, SeekOrigin.End);
+                sw.Write("{1} [{0}] ", prefix, DateTime.Now.ToString());
+                sw.WriteLine(message, args);
+                sw.Flush();
+                sw.Close();
+            }
         }
+
+        
     }
 
     public enum SyncLogger_LogLevel

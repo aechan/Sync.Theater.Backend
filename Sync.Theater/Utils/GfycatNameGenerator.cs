@@ -9,8 +9,8 @@ namespace Sync.Theater.Utils
 {
     class GfycatNameGenerator
     {
-        static string Animals = @"../../animals.txt";
-        static string Adjectives = @"../../adjectives.txt";
+        static string Animals = @"../../../animals.txt";
+        static string Adjectives = @"../../../adjectives.txt";
 
         public static string GetName()
         {

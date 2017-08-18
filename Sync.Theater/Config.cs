@@ -64,7 +64,7 @@ namespace Sync.Theater
         public string DBUsername { get; set; }
         public string DBPassword { get; set; }
         public string SQLConnectionString { get; set; }
-
+        public string LogFilePath { get; set; }
         public string HTTPRelativeBasePath { get; set; }
     }
 

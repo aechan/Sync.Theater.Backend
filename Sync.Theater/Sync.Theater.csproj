@@ -5,7 +5,7 @@
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{7B220E46-D2C2-451D-B339-0816E9984F93}</ProjectGuid>
-    <OutputType>Exe</OutputType>
+    <OutputType>Library</OutputType>
     <RootNamespace>Sync.Theater</RootNamespace>
     <AssemblyName>Sync.Theater</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
@@ -32,7 +32,8 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup>
-    <StartupObject>Sync.Theater.TestProgram</StartupObject>
+    <StartupObject>
+    </StartupObject>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.IdentityModel.Logging, Version=1.1.4.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
@@ -70,7 +71,6 @@
     <Compile Include="SyncRoom.cs" />
     <Compile Include="SyncService.cs" />
     <Compile Include="SyncTheater.cs" />
-    <Compile Include="TestProgram.cs" />
     <Compile Include="UserAuth.cs" />
     <Compile Include="Utils\GfycatNameGenerator.cs" />
     <Compile Include="Utils\MimeType.cs" />
@@ -9977,6 +9977,7 @@
     <Content Include="Sync.Theater.Web\src\lib\milligram\examples\index.html" />
     <Content Include="Sync.Theater.Web\src\lib\normalize.css\.gitignore" />
     <Content Include="Sync.Theater.Web\src\lib\normalize.css\normalize.css" />
+    <Content Include="Sync.Theater.Web\src\scripts\chat.js" />
     <Content Include="Sync.Theater.Web\src\scripts\init.js" />
     <Content Include="Sync.Theater.Web\src\scripts\main.js" />
     <Content Include="Sync.Theater.Web\src\scripts\permissions.js" />
@@ -9985,6 +9986,7 @@
     <Content Include="Sync.Theater.Web\src\scripts\user.js" />
     <Content Include="Sync.Theater.Web\src\scripts\video-controls.js" />
     <Content Include="Sync.Theater.Web\src\scripts\video.js" />
+    <Content Include="Sync.Theater.Web\src\styles\chat-bubbles.css" />
     <Content Include="Sync.Theater.Web\src\styles\main.css" />
     <Content Include="Sync.Theater.Web\src\styles\sync-theater.css" />
     <Content Include="Sync.Theater.Web\src\styles\video-js.css" />

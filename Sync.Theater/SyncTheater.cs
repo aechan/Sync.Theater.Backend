@@ -10,7 +10,7 @@ using Sync.Theater.Utils;
 
 namespace Sync.Theater
 {
-    class SyncTheater
+    public class SyncTheater
     {
         public static List<SyncRoom> rooms;
         private static HttpServer httpsv;
@@ -118,7 +118,7 @@ namespace Sync.Theater
                 Logger.Log("Listening on port {0}, and providing WebSocket services", httpsv.Port);
             }
 
-            Console.ReadLine();
+            
         }
 
         public static void Stop()
