@@ -44,6 +44,20 @@ namespace Sync.Theater.Utils
             }
         }
 
+        public string TestLog(string message ,params object[] args)
+        {
+            string msg;
+            
+            msg = string.Format("{1} [{0}] ", prefix, DateTime.Now.ToString());
+            
+
+            // write the rest of the message and format
+            msg += string.Format(message, args);
+
+            return msg;
+            
+        }
+
         
     }
 
