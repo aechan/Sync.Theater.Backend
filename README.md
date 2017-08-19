@@ -19,6 +19,8 @@ There are 5 projects in this solution:
 
 `STServiceSetup` is an installer project that builds the installer for `Sync.Theater.Service`
 
+`Sync.Theater.Tests` is the testing suite for `Sync.Theater`
+
 ## Usage
 - Open Sync.Theater.sln in Visual Studio 2017.
 - To build/debug the console app:
