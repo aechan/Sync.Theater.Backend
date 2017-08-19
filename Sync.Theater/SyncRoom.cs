@@ -37,11 +37,13 @@ namespace Sync.Theater
             Logger.Log("initialized.");
         }
 
-        public void AddService(SyncService Service)
+        public string AddService(SyncService Service)
         {
             Service.MessageRecieved += Service_MessageRecieved;
             Service.ConnectionOpenedOrClosed += Service_ConnectionOpenedOrClosed;
             Services.Add(Service);
+
+            return Service.ID;
         }
 
         public int AddLike()

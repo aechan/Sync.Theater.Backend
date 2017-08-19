@@ -41,6 +41,11 @@ namespace Sync.Theater
             }
         }
 
+        public SyncService()
+        {
+            Nickname = GfycatNameGenerator.GetName();
+        }
+
         public SyncService(SyncRoom room)
         {
             // some kind of dependency injection trick (I think..) - but it works 

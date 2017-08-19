@@ -64,8 +64,6 @@ namespace Sync.Theater
                         
 
                         var sr = CreateRoom();
-                        
-                        httpsv.AddWebSocketService("/" + sr.RoomCode, () => new SyncService(sr));
 
                         res.Redirect((req.Url.GetLeftPart(UriPartial.Authority) + "/" + sr.RoomCode));
                     }
@@ -76,8 +74,6 @@ namespace Sync.Theater
                     path = "index.min.html";
                     
                     var room = CreateRoom();
-                    
-                    httpsv.AddWebSocketService("/" + room.RoomCode, () => new SyncService(room));
 
                     res.Redirect(req.Url + room.RoomCode);
                 }
@@ -137,6 +133,8 @@ namespace Sync.Theater
 
             Logger.Log("Room {0} created successfully.", room.RoomCode);
             rooms.Add(room);
+
+            httpsv.AddWebSocketService("/" + room.RoomCode, () => new SyncService(room));
 
             return room;
         }
