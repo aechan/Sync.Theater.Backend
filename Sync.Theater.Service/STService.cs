@@ -16,11 +16,14 @@ namespace Sync.Theater.Service
         {
             InitializeComponent();
             Sync.Theater.Utils.SyncLogger.LogLevel = Utils.SyncLogger_LogLevel.PRODUCTION;
+            ConfigManager.loadLevel = SyncTheater_ConfigLoadLevel.SERVICE;
         }
 
         protected override void OnStart(string[] args)
         {
             SyncTheater.Start();
+
+
         }
 
         protected override void OnStop()

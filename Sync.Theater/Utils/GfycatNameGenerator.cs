@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -11,6 +12,20 @@ namespace Sync.Theater.Utils
     {
         static string Animals = @"../../../animals.txt";
         static string Adjectives = @"../../../adjectives.txt";
+
+        static GfycatNameGenerator()
+        {
+            if(ConfigManager.loadLevel == SyncTheater_ConfigLoadLevel.SERVICE)
+            {
+                Animals = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "animals.txt");
+                Adjectives = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "adjectives.txt");
+            }
+            else if (ConfigManager.loadLevel == SyncTheater_ConfigLoadLevel.CONSOLE)
+            {
+                Animals = ConfigManager.Config.AnimalNamesFileRelativePath;
+                Adjectives = ConfigManager.Config.AdjectivesFileRelativePath;
+            }
+        }
 
         public static string GetName()
         {

@@ -4,8 +4,8 @@
   "DBUsername": "alec",
   "DBPassword": "Vakama002",
   "SQLConnectionString": "Server=tcp:sync-theater.database.windows.net,1433;Initial Catalog=sync-theater-users;Persist Security Info=False;User ID={userid};Password={pwd};MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;",
-  "HTTPRelativeBasePath": "../../../Sync.Theater.Web/src/",
+  "HTTPRelativeBasePath": "Sync.Theater.Web/src/",
   "LogFilePath": "C:\\Sync.Theater.Log.txt",
-  "AnimalNamesFileRelativePath": "../../../animals.txt",
-  "AdjectivesFileRelativePath": "../../../adjectives.txt"
+  "AnimalNamesFileRelativePath": "",
+  "AdjectivesFileRelativePath": ""
 }

@@ -34,6 +34,7 @@ namespace Sync.Theater
             this.RoomCode = code;
             this.CurrentQueue = new PartialQueue();
             this.likes = 0;
+            Logger.Log("initialized.");
         }
 
         public void AddService(SyncService Service)

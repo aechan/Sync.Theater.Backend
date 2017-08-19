@@ -7,6 +7,8 @@ using System.Threading.Tasks;
 using WebSocketSharp;
 using WebSocketSharp.Server;
 using Sync.Theater.Utils;
+using System.IO;
+using System.Reflection;
 
 namespace Sync.Theater
 {
@@ -24,7 +26,7 @@ namespace Sync.Theater
             httpsv = new HttpServer(ConfigManager.Config.Port);
 
             // Set the document root path.
-            httpsv.RootPath = System.IO.Path.GetFullPath(ConfigManager.Config.HTTPRelativeBasePath);
+            httpsv.RootPath = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), ConfigManager.Config.HTTPRelativeBasePath);
 
             var timer = new System.Threading.Timer((e) =>
             {
@@ -124,6 +126,7 @@ namespace Sync.Theater
         public static void Stop()
         {
             httpsv.Stop();
+           
         }
 
         public static SyncRoom CreateRoom( string code = "")

@@ -34,7 +34,7 @@ namespace Sync.Theater.Utils
             }
             else if (LogLevel == SyncLogger_LogLevel.PRODUCTION)
             {
-                FileStream fs = new FileStream(Sync.Theater.ConfigManager.Config.LogFilePath, FileMode.OpenOrCreate, FileAccess.Write);
+                FileStream fs = new FileStream(@"c:\Sync.Theater.Log.txt", FileMode.OpenOrCreate, FileAccess.Write);
                 StreamWriter sw = new StreamWriter(fs);
                 sw.BaseStream.Seek(0, SeekOrigin.End);
                 sw.Write("{1} [{0}] ", prefix, DateTime.Now.ToString());

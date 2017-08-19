@@ -78,7 +78,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
-    <None Include="config.json" />
     <None Include="packages.config" />
     <None Include="Sync.Theater.Web\.appveyor.yml" />
     <None Include="Sync.Theater.Web\.editorconfig" />

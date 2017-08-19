@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Sync.Theater.Utils;
+using System.Reflection;
 
 namespace Sync.Theater
 {
@@ -13,6 +14,8 @@ namespace Sync.Theater
     {
         private static Config _config;
         private static SyncLogger Logger;
+        public static SyncTheater_ConfigLoadLevel loadLevel;
+        private static string path;
 
         public static Config Config
         {
@@ -24,13 +27,27 @@ namespace Sync.Theater
                 }
                 if (_config == null)
                 {
-                    Logger.Log("Config not yet loaded, reading config.json..");
-                    using (StreamReader r = new StreamReader("../../config.json"))
+                    if(loadLevel == SyncTheater_ConfigLoadLevel.CONSOLE) { path = "../../config.json"; }
+                    if(loadLevel == SyncTheater_ConfigLoadLevel.SERVICE)
                     {
-                        string json = r.ReadToEnd();
-                        _config = JsonConvert.DeserializeObject<Config>(json);
-                        Log(_config);
+                        path = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location),"config.json");
                     }
+                    Logger.Log("Config not yet loaded, reading config.json..");
+                    if (File.Exists(path))
+                    {
+                        using (StreamReader r = new StreamReader(path))
+                        {
+                            string json = r.ReadToEnd();
+                            _config = JsonConvert.DeserializeObject<Config>(json);
+                            Log(_config);
+                        }
+                    }
+                    else
+                    {
+                        Logger.Log("Could not load config from file: {0}, aborting...", Path.GetFullPath(path));
+                        Sync.Theater.SyncTheater.Stop();
+                    }
+                    
                 }
                 return _config;
             }
@@ -57,6 +74,12 @@ namespace Sync.Theater
 
     }
 
+    public enum SyncTheater_ConfigLoadLevel
+    {
+        CONSOLE,
+        SERVICE
+    }
+
     public class Config
     {
         public string JWTSecret { get; set; }
@@ -66,6 +89,8 @@ namespace Sync.Theater
         public string SQLConnectionString { get; set; }
         public string LogFilePath { get; set; }
         public string HTTPRelativeBasePath { get; set; }
+        public string AnimalNamesFileRelativePath { get; set; }
+        public string AdjectivesFileRelativePath { get; set; }
     }
 
 

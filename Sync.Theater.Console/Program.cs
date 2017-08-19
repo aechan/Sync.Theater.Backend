@@ -12,6 +12,7 @@ namespace Sync.Theater.Console
     {
         public static void Main(string[] args)
         {
+            ConfigManager.loadLevel = SyncTheater_ConfigLoadLevel.CONSOLE;
             SyncLogger.LogLevel = SyncLogger_LogLevel.DEBUG;
 
             SyncTheater.Start();
