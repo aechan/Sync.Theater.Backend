@@ -7,7 +7,7 @@ In the previous version, most, if not all of the logic was handled on the fronte
 
 This new version moves the app towards more of an MVC design, handling all of the logic and database interaction on the C# backend and only updating the frontend with the information that it needs.  The frontend will just handle displaying the data that the backend gives it, like it should.
 
-There are 5 projects in this solution:
+There are 6 projects in this solution:
 
 `Sync.Theater`: is the core of the Sync Theater backend. It is a class library project that gets compiled to a dll for portability.
 
