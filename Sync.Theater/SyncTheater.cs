@@ -49,63 +49,97 @@ namespace Sync.Theater
 
                 var path = req.RawUrl;
 
-
-                // if we might have a match for a valid room code
-                if(path.Length==7 && !path.Contains("."))
+                if (path == "/roomcodeVer")
                 {
-                    // attempt to get the room by the code given
-                    var room = GetRoomByCode(path.Remove(0, 1));
-
-                    // set the path to the html file so we don't request something like "/ABC123"
-                    path = "index.min.html";
-                    
-                    if(room==null)
+                    if (req.Headers.Get("x-verify-roomcode") != null)
                     {
-                        
+                        var code= req.Headers.Get("x-verify-roomcode");
+                        if(code.Length > 6)
+                        {
+                            code = code.Substring(code.Length - 6);
+                        }
+                        if (GetRoomByCode(code) != null)
+                        {
+                            res.StatusCode = 200;
+                            res.AppendHeader("x-verify-roomcode", "exists");
+                            res.WriteContent(Encoding.UTF8.GetBytes(code));
+                            return;
+                        }
+                        else
+                        {
+                            res.StatusCode = 200;
+                            res.AppendHeader("x-verify-roomcode", "does not exist");
 
-                        var sr = CreateRoom();
-
-                        res.Redirect((req.Url.GetLeftPart(UriPartial.Authority) + "/" + sr.RoomCode));
+                            res.WriteContent(Encoding.UTF8.GetBytes("fail"));
+                            return;
+                        }
                     }
                 }
-                else if (path == "/")
+                else
                 {
-                    
-                    path = "index.min.html";
-                    
-                    var room = CreateRoom();
 
-                    res.Redirect(req.Url + room.RoomCode);
+                    // if we might have a match for a valid room code
+                    if (path.Length == 7 && !path.Contains("."))
+                    {
+                        // attempt to get the room by the code given
+                        var room = GetRoomByCode(path.Remove(0, 1));
+
+                        // set the path to the html file so we don't request something like "/ABC123"
+                        path = "index.min.html";
+
+                        if (room == null)
+                        {
+
+
+                            var sr = CreateRoom();
+
+                            res.Redirect((req.Url.GetLeftPart(UriPartial.Authority) + "/" + sr.RoomCode));
+                        }
+                    }
+                    else if (path == "/")
+                    {
+
+                        path = "landing/index.html";
+
+                        
+                    }
+                    else if(path == "/newroom")
+                    {
+                        path = "index.min.html";
+
+                        var room = CreateRoom();
+
+                        res.Redirect((req.Url.GetLeftPart(UriPartial.Authority) + "/" + room.RoomCode));
+                    }
+
+
+
+                    var content = httpsv.GetFile(path);
+
+                    if (content == null)
+                    {
+                        res.StatusCode = (int)HttpStatusCode.NotFound;
+                        return;
+                    }
+
+                    if (path.EndsWith(".html"))
+                    {
+                        res.ContentType = "text/html";
+                        res.ContentEncoding = Encoding.UTF8;
+                    }
+                    else if (path.EndsWith(".js"))
+                    {
+                        res.ContentType = "application/javascript";
+                        res.ContentEncoding = Encoding.UTF8;
+                    }
+                    else if (path.EndsWith(".css"))
+                    {
+                        res.ContentType = "text/css";
+                        res.ContentEncoding = Encoding.UTF8;
+                    }
+
+                    res.WriteContent(content);
                 }
-                
-                
-
-                var content = httpsv.GetFile(path);
-
-                if (content == null)
-                {
-                    res.StatusCode = (int)HttpStatusCode.NotFound;
-                    return;
-                }
-
-                if (path.EndsWith(".html"))
-                {
-                    res.ContentType = "text/html";
-                    res.ContentEncoding = Encoding.UTF8;
-                }
-                else if (path.EndsWith(".js"))
-                {
-                    res.ContentType = "application/javascript";
-                    res.ContentEncoding = Encoding.UTF8;
-                }
-                else if (path.EndsWith(".css"))
-                {
-                    res.ContentType = "text/css";
-                    res.ContentEncoding = Encoding.UTF8;
-                }
-
-                res.WriteContent(content);
-
             };
 
 

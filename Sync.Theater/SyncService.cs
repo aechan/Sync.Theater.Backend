@@ -80,6 +80,11 @@ namespace Sync.Theater
             Send(data);
         }
 
+        public void Disconnect()
+        {
+            Sessions.CloseSession(this.ID);
+        }
+
         
     }
 

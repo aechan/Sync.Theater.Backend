@@ -63,7 +63,7 @@ namespace Sync.Theater
                     // update new user with queue
                     var res = new
                     {
-                        CommandType = CommandType.QUEUEUPDATE,
+                        CommandType = CommandType.QUEUEUPDATE.Value,
                         Queue = new
                         {
                             Name = CurrentQueue.Name,
@@ -79,7 +79,7 @@ namespace Sync.Theater
                 // notify service of their nickname
                 var res1 = new
                 {
-                    CommandType = CommandType.SETUSERNICKNAME,
+                    CommandType = CommandType.SETUSERNICKNAME.Value,
                     Nickname = s.Nickname
                 };
 
@@ -89,7 +89,7 @@ namespace Sync.Theater
                 // notify service of like count
                 var res2 = new
                 {
-                    CommandType = CommandType.UPDATELIKES,
+                    CommandType = CommandType.UPDATELIKES.Value,
                     Likes = likes
                 };
 
@@ -131,7 +131,7 @@ namespace Sync.Theater
 
             var res = new
             {
-                CommandType = CommandType.SENDUSERLIST,
+                CommandType = CommandType.SENDUSERLIST.Value,
                 Userlist = userlist
             };
             
