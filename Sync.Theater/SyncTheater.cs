@@ -142,7 +142,7 @@ namespace Sync.Theater
                 }
             };
 
-            httpsv.OnPost += (sender, e) =>
+            /* httpsv.OnPost += (sender, e) =>
             {
                 var req = e.Request;
                 var res = e.Response;
@@ -190,7 +190,7 @@ namespace Sync.Theater
                     }
                     
                 }
-            };
+            }; */
 
 
             httpsv.Start();

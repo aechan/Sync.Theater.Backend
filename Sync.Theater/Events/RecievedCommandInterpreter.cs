@@ -39,9 +39,13 @@ namespace Sync.Theater.Events
 
         public static void InterpretCommand(dynamic message, SyncService s, SyncRoom room)
         {
-            Action<dynamic, SyncService, SyncRoom> act = RegisteredInterpreters[(string)message.CommandType];
+            if (RegisteredInterpreters[(string)message.CommandType] != null)
+            {
+                Action<dynamic, SyncService, SyncRoom> act = RegisteredInterpreters[(string)message.CommandType];
 
-            act.Invoke(message, s, room);
+                act.Invoke(message, s, room);
+            }
+            
         }
 
         public static string PermissionsChangedNotification(UserPermissionLevel level)

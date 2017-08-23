@@ -42,6 +42,11 @@ Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "Sync.Theater.Web", "Sync.Th
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sync.Theater.Tests", "Sync.Theater.Tests\Sync.Theater.Tests.csproj", "{52D21786-9D92-41CF-B248-39D9B7EDF7E5}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "LivestreamExtractor", "LivestreamExtractor", "{90235B8F-9B9E-4E4C-A41D-2D5B182AB04D}"
+	ProjectSection(SolutionItems) = preProject
+		LivestreamExtractor\LivestreamExtractionServer.py = LivestreamExtractor\LivestreamExtractionServer.py
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
