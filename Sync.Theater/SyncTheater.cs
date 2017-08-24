@@ -9,7 +9,6 @@ using WebSocketSharp.Server;
 using Sync.Theater.Utils;
 using System.IO;
 using System.Reflection;
-using Python.Runtime;
 
 namespace Sync.Theater
 {
@@ -112,8 +111,6 @@ namespace Sync.Theater
                         res.Redirect((req.Url.GetLeftPart(UriPartial.Authority) + "/" + room.RoomCode));
                     }
 
-
-
                     var content = httpsv.GetFile(path);
 
                     if (content == null)
@@ -141,57 +138,6 @@ namespace Sync.Theater
                     res.WriteContent(content);
                 }
             };
-
-            /* httpsv.OnPost += (sender, e) =>
-            {
-                var req = e.Request;
-                var res = e.Response;
-
-                var path = req.RawUrl;
-                if (path == "/crdecoder")
-                {
-                    if(req.Headers.Get("x-cr-url") != null)
-                    {
-                        string url = req.Headers.Get("x-cr-url");
-                        Uri crurl = new Uri(url);
-
-                        if (Uri.IsWellFormedUriString(url, UriKind.Absolute) && crurl.Host.Contains("crunchyroll.com"))
-                        {
-                            //PythonEngine.Initialize();
-                            using (Py.GIL())
-                            {
-                                dynamic streamlinkns = Py.Import("streamlink");
-
-                                try
-                                {
-                                    Python.Runtime.PyObject streams = streamlinkns.Streamlink().streams(url);
-                                    if (streams != null && streams["best"]!=null)
-                                    {
-                                        string stream = streams["best"].ToString();
-                                        
-                                        stream = stream.Remove(0,12);
-                                        stream = stream.Remove(stream.Length - 3);
-                                        res.StatusCode = 200;
-                                        res.WriteContent(Encoding.UTF8.GetBytes(stream));
-                                    }
-                                    else
-                                    {
-                                        res.StatusCode = 500;
-                                    }
-                                }
-                                catch(Exception ex)
-                                {
-                                    res.StatusCode = 500;
-                                    res.WriteContent(Encoding.UTF8.GetBytes(ex.Message +  ex.StackTrace));
-                                }
-                                
-                            }
-                        }
-                    }
-                    
-                }
-            }; */
-
 
             httpsv.Start();
 
