@@ -26,6 +26,8 @@ namespace Sync.Theater
 
         private string UserToken;
 
+        public UserStatus status;
+
         private UserPermissionLevel _permissions;
         public UserPermissionLevel Permissions
         {
@@ -44,6 +46,7 @@ namespace Sync.Theater
         public SyncService()
         {
             Nickname = GfycatNameGenerator.GetName();
+            status = UserStatus.WATCHING;
         }
 
         public SyncService(SyncRoom room)
@@ -106,5 +109,11 @@ namespace Sync.Theater
         VIEWER,
         TRUSTED,
         OWNER
+    }
+
+    public enum UserStatus
+    {
+        WATCHING,
+        BUFFERING
     }
 }

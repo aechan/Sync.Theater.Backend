@@ -29,6 +29,7 @@ namespace Sync.Theater.Events
             RegisterCommandInterpreter(CommandType.CHAT.Value, OnChat);
             RegisterCommandInterpreter(CommandType.KICKUSER.Value, OnKickUser);
             RegisterCommandInterpreter(CommandType.SENDUSERLIST.Value, OnUserListRequested);
+            RegisterCommandInterpreter(CommandType.UPDATESTATUS.Value, OnStatusUpdate);
         }
 
 
@@ -200,6 +201,12 @@ namespace Sync.Theater.Events
             room.SendUserList();
         }
 
+        public static void OnStatusUpdate(dynamic message, SyncService s, SyncRoom room)
+        {
+            s.status = (UserStatus)message.Status;
+            room.SendUserList();
+        }
+
 
     }
 
@@ -228,6 +235,7 @@ namespace Sync.Theater.Events
         public static CommandType UPDATELIKES { get { return new CommandType("UPDATELIKES"); } }
         public static CommandType CHAT { get { return new CommandType("CHAT"); } }
         public static CommandType KICKUSER { get { return new CommandType("KICKUSER"); } }
+        public static CommandType UPDATESTATUS { get { return new CommandType("UPDATESTATUS"); } }
     }
 
 

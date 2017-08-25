@@ -125,7 +125,8 @@ namespace Sync.Theater
 
                 userlist.Add(new {
                     Nickname = sr.Nickname,
-                    PermissionLevel = sr.Permissions
+                    PermissionLevel = sr.Permissions,
+                    Status = sr.status
                 });
             }
 
