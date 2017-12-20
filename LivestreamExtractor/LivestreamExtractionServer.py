@@ -22,7 +22,6 @@ class ServerHandler(BaseHTTPRequestHandler):
     key = ""
     ''' HTTP request handler class. '''
     def do_HEAD(self):
-        print "send header"
         self.send_response(200)
         self.send_header('Access-Control-Allow-Origin', '*')
         self.send_header('Content-type', 'text/html')
@@ -39,20 +38,17 @@ class ServerHandler(BaseHTTPRequestHandler):
         self.end_headers()
 
     def do_AUTHHEAD(self):
-        print "send header"
         self.send_response(401)
         self.send_header('WWW-Authenticate', 'Basic realm=\"/\"')
         self.send_header('Content-type', 'text/html')
         self.end_headers()
 
     def do_GET(self):
-        print 'key is '+self.key
         if self.headers.getheader('Authorization') is None:
             self.do_AUTHHEAD()
             self.wfile.write('no auth header received')
             pass
         elif self.headers.getheader('Authorization') == 'Basic '+self.key:
-            print 'authorized!'
             cr = self.headers.getheader('x-cr-url')
             if cr is not None and is_valid_url(cr) is not False and is_valid_url(cr) is not None:
                 enc_url = cr
@@ -120,7 +116,6 @@ def run(authkey, server_class=HTTPServer, handler_class=ServerHandler, port=8080
     handler_class.key = authkey
     server_address = ('', port)
     httpd = server_class(server_address, handler_class)
-    print 'running livestream extractor on port {0}'.format(port)
     httpd.serve_forever()
 
 
@@ -129,7 +124,6 @@ def main():
     from sys import argv
 
     if len(sys.argv) < 2:
-        print "usage SimpleAuthServer.py [username:password]"
         sys.exit()
 
     key = base64.b64encode(sys.argv[1])
