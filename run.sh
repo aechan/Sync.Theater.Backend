@@ -1,3 +1,4 @@
 #!/bin/bash
 cd Sync.Theater.Console/bin/Debug
-sudo mono Sync.Theater.Console.exe
+sudo nohup mono Sync.Theater.Console.exe &
+
