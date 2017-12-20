@@ -17,7 +17,7 @@ namespace Sync.Theater.Console
 
             SyncTheater.Start();
 
-            System.Console.ReadLine();
+            while(System.Console.ReadLine().ToLower() != "quit");
 
             SyncTheater.Stop();
         }
