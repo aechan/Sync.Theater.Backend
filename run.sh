@@ -1,2 +1,2 @@
 cd Sync.Theater.Console/bin/Debug
-mono Sync.Theater.Console.exe
+sudo mono Sync.Theater.Console.exe
