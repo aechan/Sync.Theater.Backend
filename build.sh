@@ -1,5 +1,4 @@
-git submodule init
-git submodule update
+git clone https://github.com/sync-theater/Sync.Theater.Web
 cd Sync.Theater.Web
 npm install
 grunt
