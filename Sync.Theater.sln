@@ -15,38 +15,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sync.Theater.Console", "Sync.Theater.Console\Sync.Theater.Console.csproj", "{7574BC81-876E-40FF-9982-4BE073C7EE1A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sync.Theater.Service", "Sync.Theater.Service\Sync.Theater.Service.csproj", "{6FBE5028-AB51-412D-976D-F76CFAF923E0}"
-EndProject
-Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "STServiceSetup", "STServiceSetup\STServiceSetup.vdproj", "{7E2A43AA-8818-414E-8070-3FE45694CF97}"
-EndProject
-Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "Sync.Theater.Web", "Sync.Theater.Web\", "{73442F98-CB71-4132-99C1-D416B9E5DC95}"
-	ProjectSection(WebsiteProperties) = preProject
-		TargetFrameworkMoniker = ".NETFramework,Version%3Dv4.0"
-		Debug.AspNetCompiler.VirtualPath = "/localhost_10039"
-		Debug.AspNetCompiler.PhysicalPath = "Sync.Theater.Web\"
-		Debug.AspNetCompiler.TargetPath = "PrecompiledWeb\localhost_10039\"
-		Debug.AspNetCompiler.Updateable = "true"
-		Debug.AspNetCompiler.ForceOverwrite = "true"
-		Debug.AspNetCompiler.FixedNames = "false"
-		Debug.AspNetCompiler.Debug = "True"
-		Release.AspNetCompiler.VirtualPath = "/localhost_10039"
-		Release.AspNetCompiler.PhysicalPath = "Sync.Theater.Web\"
-		Release.AspNetCompiler.TargetPath = "PrecompiledWeb\localhost_10039\"
-		Release.AspNetCompiler.Updateable = "true"
-		Release.AspNetCompiler.ForceOverwrite = "true"
-		Release.AspNetCompiler.FixedNames = "false"
-		Release.AspNetCompiler.Debug = "False"
-		VWDPort = "10039"
-		SlnRelativePath = "Sync.Theater.Web\"
-	EndProjectSection
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sync.Theater.Tests", "Sync.Theater.Tests\Sync.Theater.Tests.csproj", "{52D21786-9D92-41CF-B248-39D9B7EDF7E5}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "LivestreamExtractor", "LivestreamExtractor", "{90235B8F-9B9E-4E4C-A41D-2D5B182AB04D}"
-	ProjectSection(SolutionItems) = preProject
-		LivestreamExtractor\LivestreamExtractionServer.py = LivestreamExtractor\LivestreamExtractionServer.py
-	EndProjectSection
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -62,25 +30,10 @@ Global
 		{7574BC81-876E-40FF-9982-4BE073C7EE1A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7574BC81-876E-40FF-9982-4BE073C7EE1A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7574BC81-876E-40FF-9982-4BE073C7EE1A}.Release|Any CPU.Build.0 = Release|Any CPU
-		{6FBE5028-AB51-412D-976D-F76CFAF923E0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{6FBE5028-AB51-412D-976D-F76CFAF923E0}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{6FBE5028-AB51-412D-976D-F76CFAF923E0}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{6FBE5028-AB51-412D-976D-F76CFAF923E0}.Release|Any CPU.Build.0 = Release|Any CPU
 		{7E2A43AA-8818-414E-8070-3FE45694CF97}.Debug|Any CPU.ActiveCfg = Debug
 		{7E2A43AA-8818-414E-8070-3FE45694CF97}.Release|Any CPU.ActiveCfg = Release
-		{73442F98-CB71-4132-99C1-D416B9E5DC95}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{73442F98-CB71-4132-99C1-D416B9E5DC95}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{73442F98-CB71-4132-99C1-D416B9E5DC95}.Release|Any CPU.ActiveCfg = Debug|Any CPU
-		{73442F98-CB71-4132-99C1-D416B9E5DC95}.Release|Any CPU.Build.0 = Debug|Any CPU
-		{52D21786-9D92-41CF-B248-39D9B7EDF7E5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{52D21786-9D92-41CF-B248-39D9B7EDF7E5}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{52D21786-9D92-41CF-B248-39D9B7EDF7E5}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{52D21786-9D92-41CF-B248-39D9B7EDF7E5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
-	EndGlobalSection
-	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {15371696-3EE8-4BB4-808B-352FB1CC2139}
 	EndGlobalSection
 EndGlobal
