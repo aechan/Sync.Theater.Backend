@@ -30,6 +30,7 @@ namespace Sync.Theater.Events
             RegisterCommandInterpreter(CommandType.KICKUSER.Value, OnKickUser);
             RegisterCommandInterpreter(CommandType.SENDUSERLIST.Value, OnUserListRequested);
             RegisterCommandInterpreter(CommandType.UPDATESTATUS.Value, OnStatusUpdate);
+            RegisterCommandInterpreter(CommandType.UPDATEUSERNAME.Value, OnUsernameUpdate);
         }
 
 
@@ -207,9 +208,25 @@ namespace Sync.Theater.Events
             room.SendUserList();
         }
 
+        public static void OnUsernameUpdate(dynamic message, SyncService s, SyncRoom room) 
+        {
+            s.Nickname = (string)message.Nickname;
+
+            //notify of nickname change
+            var res1 = new
+                {
+                    CommandType = CommandType.SETUSERNICKNAME.Value,
+                    Nickname = s.Nickname
+                };
+
+            s.SendMessage(JsonConvert.SerializeObject(res1));
+
+            //notify rest of room of nickname change
+            room.SendUserList();
+        }
+
 
     }
-
 
     public class CommandType
     {
@@ -236,6 +253,8 @@ namespace Sync.Theater.Events
         public static CommandType CHAT { get { return new CommandType("CHAT"); } }
         public static CommandType KICKUSER { get { return new CommandType("KICKUSER"); } }
         public static CommandType UPDATESTATUS { get { return new CommandType("UPDATESTATUS"); } }
+        public static CommandType UPDATEUSERNAME { get { return new CommandType("UPDATEUSERNAME"); } }
+
     }
 
 
