@@ -1,7 +1,7 @@
 <a align="center" href="http://sync.theater"><img width="75%" src="https://alecchan.org/assets/img/sync.theater.png" alt="sync.theater"></a>
 # Sync.Theater
 
-## Sync.Theater is a rework of [alec-chan/VideoSync](https://github.com/alec-chan/VideoSync)
+## Sync.Theater has been migrated over to this new account
 The purpose of this new revision is mainly to offload all of the logic from the frontend to the backend.  
 In the previous version, most, if not all of the logic was handled on the frontend in JavaScript.  This was a mistake and left the app prone to tons of synchronization errors and became a mess to add features to.  
 
