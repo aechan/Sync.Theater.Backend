@@ -82,6 +82,10 @@
     <Compile Include="Utils\GfycatNameGenerator.cs" />
     <Compile Include="Utils\MimeType.cs" />
     <Compile Include="Utils\SyncLogger.cs" />
+    <Compile Include="Telemetry\RoomSession.cs" />
+    <Compile Include="Telemetry\UserSession.cs" />
+    <Compile Include="Telemetry\TelemetrySession.cs" />
+    <Compile Include="Telemetry\TelemetrySerializer.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
